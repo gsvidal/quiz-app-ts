@@ -47,8 +47,21 @@ describe('Quiz', () => {
     expect(headingElement).toBeInTheDocument();
   });
   test('should show first question when renders', () => {
-    const firstQuestion = quizProps.quiz.questions[0].question;
-    const questionElement: HTMLHeadingElement = screen.getByRole('heading', { level: 2, name: firstQuestion });
-    expect(questionElement).toBeInTheDocument();
+    const firstQuestionElement: HTMLHeadingElement = screen.getByRole('heading', {
+      level: 2,
+      name: quizProps.quiz.questions[0].question,
+    });
+    expect(firstQuestionElement).toBeInTheDocument();
+  });
+  test('should render four possible answers(choices)', () => {
+    const choicesListElement: HTMLLIElement[] = screen.getAllByRole('listitem');
+    expect(choicesListElement.length).toBe(4);
+  });
+  // const randomQuestionIndex = Math.floor(Math.random() * (quizProps.quiz.questions.length + 1));
+  test('should render first question with its possible answers(choices)', () => {
+    const firstQuestionChoices = quizProps.quiz.questions[0].choices;
+    const choicesListElement: HTMLLIElement[] = screen.getAllByRole('listitem');
+    const listValues: (string | null)[] = choicesListElement.map((el) => el.textContent);
+    expect(firstQuestionChoices).toStrictEqual(listValues);
   });
 });
