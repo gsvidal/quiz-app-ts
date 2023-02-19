@@ -1,7 +1,7 @@
 import './Quiz.module.css';
 
 import { QuizObj } from '../../mocks/questions';
-import { useState } from 'react';
+import { useState, MouseEvent } from 'react';
 
 export type QuizProps = {
   quiz: QuizObj;
@@ -13,6 +13,10 @@ export const Quiz = ({ quiz }: QuizProps): JSX.Element => {
   const { questions } = quiz;
   const { question, choices } = questions[activeQuestionIndex];
 
+  const handleNextQuestion: (event: MouseEvent<HTMLButtonElement>) => void = (event) => {
+    setActiveQuestionIndex((prevQuestionIndex) => prevQuestionIndex + 1);
+  };
+
   return (
     <>
       <h1>FrontEnd Quiz</h1>
@@ -22,6 +26,7 @@ export const Quiz = ({ quiz }: QuizProps): JSX.Element => {
           <li key={choice}>{choice}</li>
         ))}
       </ul>
+      <button onClick={handleNextQuestion}>Next Question</button>
     </>
   );
 };
