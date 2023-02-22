@@ -4,10 +4,11 @@ import { Questions } from './Questions';
 import { quiz } from '../../mocks/questions';
 import { QuestionsProps } from './Questions';
 
-const { questions } = quiz;
+const mockFn = jest.fn();
 
 const questionsProps: QuestionsProps = {
-  questions,
+  questions: quiz.questions,
+  setIsResultsShown: mockFn,
 };
 beforeEach(() => {
   render(<Questions {...questionsProps} />);
@@ -70,5 +71,4 @@ describe('Questions', () => {
   });
 
   test('should show 5 points on score for each correct answer', () => {});
-  test('should ', () => {});
 });

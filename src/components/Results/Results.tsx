@@ -1,9 +1,13 @@
 import './Results.module.css';
 
-export type ResultsProps = {
-  props: string;
-};
+// export type ResultsProps = {
+//   props: string;
+// };
 
-export const Results = ({ props }: ResultsProps): JSX.Element => {
-  return <></>;
+export const Results = (): JSX.Element => {
+  return (
+    <article>
+      <h2>Results</h2>
+    </article>
+  );
 };

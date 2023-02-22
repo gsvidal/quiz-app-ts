@@ -5,10 +5,13 @@ import { Results } from './Results';
 //
 // };
 
-// beforeEach(() => {
-//   render(<Results {...resultsProps} />);
-// });
+beforeEach(() => {
+  render(<Results />);
+});
 
 describe('Results', () => {
-  test('should show...', () => {});
+  test('should show Results title', () => {
+    const titleResultsElement = screen.getByRole('heading', { level: 2, name: /results/i });
+    expect(titleResultsElement).toBeInTheDocument();
+  });
 });

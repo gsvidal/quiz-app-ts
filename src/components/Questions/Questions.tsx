@@ -1,28 +1,33 @@
 import './Questions.module.css';
 import { QuestionObj } from '../../mocks/questions';
-import { useState, MouseEvent } from 'react';
+import { useState, FormEvent } from 'react';
 
 export type QuestionsProps = {
   questions: QuestionObj[];
+  setIsResultsShown: (bool: boolean) => void;
 };
 
-export const Questions = ({ questions }: QuestionsProps): JSX.Element => {
+export const Questions = ({ questions, setIsResultsShown }: QuestionsProps): JSX.Element => {
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(0);
-
   const { question, choices } = questions[activeQuestionIndex];
 
-  const handleNextQuestion: (event: MouseEvent<HTMLButtonElement>) => void = (event) => {
-    setActiveQuestionIndex((prevQuestionIndex) => prevQuestionIndex + 1);
+  const handleNextQuestion: (event: FormEvent<HTMLFormElement>) => void = (event) => {
+    event.preventDefault();
+    if (activeQuestionIndex < questions.length - 1) {
+      setActiveQuestionIndex((prevQuestionIndex) => prevQuestionIndex + 1);
+      return;
+    }
+    setIsResultsShown(true);
   };
   return (
-    <>
+    <form onSubmit={handleNextQuestion} aria-label="form">
       <h2>{question}</h2>
       <ul>
         {choices.map((choice) => (
           <li key={choice}>{choice}</li>
         ))}
       </ul>
-      <button onClick={handleNextQuestion}>Next Question</button>
-    </>
+      <button type="submit">Next Question</button>
+    </form>
   );
 };
