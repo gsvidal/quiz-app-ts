@@ -1,4 +1,4 @@
-type QuestionObj = {
+export type QuestionObj = {
   question: string;
   choices: string[];
   type: string;
