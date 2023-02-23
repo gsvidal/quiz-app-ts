@@ -8,17 +8,31 @@ export type QuizProps = {
   quiz: QuizObj;
 };
 
+export type ResultsObj = {
+  totalQuestions: number;
+  totalScore: number;
+  correctAnswers: number;
+  wrongAnswers: number;
+};
+
 export const Quiz = ({ quiz }: QuizProps): JSX.Element => {
-  // const [results, setResults] = useState<>({
-  //   score: 0
-  // })
-  const [isResultsShown, setIsResultsShown] = useState<boolean>(false);
+  const [results, setResults] = useState<ResultsObj>({
+    totalQuestions: 0,
+    totalScore: 0,
+    correctAnswers: 0,
+    wrongAnswers: 0,
+  });
+  const [showResults, setShowResults] = useState<boolean>(false);
   const { questions } = quiz;
 
   return (
     <>
       <h1>FrontEnd Quiz</h1>
-      {isResultsShown ? <Results /> : <Questions questions={questions} setIsResultsShown={setIsResultsShown} />}
+      {showResults ? (
+        <Results results={results} />
+      ) : (
+        <Questions questions={questions} setShowResults={setShowResults} setResults={setResults} />
+      )}
     </>
   );
 };

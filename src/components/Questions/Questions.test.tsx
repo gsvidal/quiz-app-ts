@@ -8,7 +8,8 @@ const mockFn = jest.fn();
 
 const questionsProps: QuestionsProps = {
   questions: quiz.questions,
-  setIsResultsShown: mockFn,
+  setShowResults: mockFn,
+  setResults: mockFn,
 };
 beforeEach(() => {
   render(<Questions {...questionsProps} />);

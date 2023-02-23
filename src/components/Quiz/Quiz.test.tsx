@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { Quiz } from './Quiz';
 import { QuizProps } from './Quiz';
 import { quiz } from '../../mocks/questions';
+import userEvent from '@testing-library/user-event';
 
 const quizProps: QuizProps = {
   quiz,
@@ -23,12 +24,26 @@ describe('Quiz', () => {
     const questionsElement = screen.getByRole('form');
     expect(questionsElement).toBeInTheDocument();
   });
+  test('should show total score as five if answer first question correctly (five points for correct answer(first choice))', async () => {
+    const firstQuestionElement: HTMLHeadingElement = screen.getByRole('heading', {
+      level: 2,
+    });
+    const nextQuestionButtonElement: HTMLButtonElement = screen.getByRole('button', { name: /next question/i });
 
-  // test('after answer all questions should not show Questions and should show Results', () => {
-  //   const questionButtonElement: HTMLButtonElement | null = screen.queryByRole('button', { name: /next question/i });
-  //   expect(questionButtonElement).not.toBeInTheDocument();
+    const choicesOfFirstQuestionElement: HTMLLIElement[] = screen.getAllByRole('listitem');
 
-  //   const resultCardElement: HTMLElement = screen.getByRole('article');
-  //   expect(resultCardElement).toBeInTheDocument();
-  // });
+    const firstQuestionCorrectAnswerElement = choicesOfFirstQuestionElement[0];
+    await waitFor(() => {
+      userEvent.click(firstQuestionCorrectAnswerElement);
+    });
+
+    for (let i = 0; i < quizProps.quiz.questions.length; i++) {
+      await waitFor(() => {
+        userEvent.click(nextQuestionButtonElement);
+      });
+    }
+
+    const totalScoreElement = screen.getByText(/total score/i);
+    expect(totalScoreElement.lastElementChild?.textContent).toBe('5');
+  });
 });
