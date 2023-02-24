@@ -47,8 +47,16 @@ export const Questions = ({ questions, setShowResults, setResults }: QuestionsPr
     setCurrentChoice(event.currentTarget.textContent);
   };
 
+  const addLeadingZero = (number: number) => {
+    return number > 9 ? number : `0${number}`;
+  };
+
   return (
     <form onSubmit={handleNextQuestion} aria-label="form">
+      <div>
+        <span>{addLeadingZero(activeQuestionIndex + 1)}</span>
+        <span>{addLeadingZero(questions.length)}</span>
+      </div>
       <h2>{question}</h2>
       <ul>
         {choices.map((choice) => (

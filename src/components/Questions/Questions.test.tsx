@@ -23,7 +23,7 @@ describe('Questions', () => {
     });
     expect(firstQuestionElement).toBeInTheDocument();
   });
-  test('should render four possible answers(choices)', () => {
+  test('should render 4 possible answers(choices)', () => {
     const choicesListElement: HTMLLIElement[] = screen.getAllByRole('listitem');
     expect(choicesListElement.length).toBe(4);
   });

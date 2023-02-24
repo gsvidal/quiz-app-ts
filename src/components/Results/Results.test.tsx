@@ -34,7 +34,7 @@ describe('Results', () => {
     expect(correctAnswersElement).toBeInTheDocument();
     expect(wrongAnswersElement).toBeInTheDocument();
   });
-  test('should show 4 total questions', () => {
+  test('should show the correct amount of total questions', () => {
     const totalQuestionElement = screen.getByText(/total questions/i);
     expect(Number(totalQuestionElement.lastElementChild?.textContent)).toBe(resultsMock.totalQuestions);
   });
