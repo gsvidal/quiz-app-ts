@@ -39,7 +39,7 @@ export const quiz: QuizObj = {
     },
     {
       question: 'How can a datatype be declared to be a constant type?',
-      choices: ['const', 'var', 'let', 'constant'],
+      choices: ['var', 'const', 'let', 'constant'],
       type: 'MCQs',
       correctAnswer: 'const',
     },

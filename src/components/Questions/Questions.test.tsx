@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Questions } from './Questions';
 import { quiz } from '../../mocks/questions';
@@ -40,7 +40,7 @@ describe('Questions', () => {
     expect(firstQuestionElement).toBeInTheDocument();
     expect(firstQuestionChoices).toStrictEqual(choicesValues);
   });
-  test('should show first question with its choices and after clicking next question button, should show next question with its respective choices', async () => {
+  test('should show first question with its choices and after selecting a choice and clicking next question button, should show next question with its respective choices', async () => {
     const firstQuestionElement: HTMLHeadingElement = screen.getByRole('heading', {
       level: 2,
       name: questionsProps.questions[0].question,
@@ -54,9 +54,9 @@ describe('Questions', () => {
     expect(firstQuestionChoices).toStrictEqual(choicesValues);
     expect(nextQuestionButtonElement).toBeInTheDocument();
 
-    // act(() => {
-    //   userEvent.click(nextQuestionButtonElement);
-    // });
+    await waitFor(() => {
+      userEvent.click(choicesListElement[0]);
+    });
     await waitFor(() => {
       userEvent.click(nextQuestionButtonElement);
     });
@@ -71,5 +71,20 @@ describe('Questions', () => {
     expect(firstQuestionChoices).not.toStrictEqual(choicesValuesAfterClick);
   });
 
-  test('should show 5 points on score for each correct answer', () => {});
+  test('should show "Finish" text in the button instead of "Next" in last question', async () => {
+    const nextQuestionButtonElement: HTMLButtonElement = screen.getByRole('button', { name: /next question/i });
+
+    for (let i = 0; i < questionsProps.questions.length - 1; i++) {
+      const choicesOfQuestionElement: HTMLLIElement[] = screen.getAllByRole('listitem');
+      const choiceSelectedElement = choicesOfQuestionElement[0];
+
+      await waitFor(() => {
+        userEvent.click(choiceSelectedElement);
+      });
+      await waitFor(() => {
+        userEvent.click(nextQuestionButtonElement);
+      });
+    }
+    expect(nextQuestionButtonElement.textContent).toBe('Finish');
+  });
 });

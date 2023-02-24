@@ -17,10 +17,10 @@ export const Results = ({ results }: ResultsProps): JSX.Element => {
         Total Questions: <span>{totalQuestions}</span>
       </p>
       <p>
-        Correct Answers: <span>{}</span>{' '}
+        Correct Answers: <span>{correctAnswers}</span>
       </p>
       <p>
-        Wrong Answers: <span>{}</span>{' '}
+        Wrong Answers: <span>{wrongAnswers}</span>
       </p>
     </article>
   );

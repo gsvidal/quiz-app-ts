@@ -37,6 +37,7 @@ export const Questions = ({ questions, setShowResults, setResults }: QuestionsPr
               wrongAnswers: prevResults.wrongAnswers + 1,
             }
       );
+      setCurrentChoice('');
       return;
     }
     setShowResults(true);
@@ -56,7 +57,9 @@ export const Questions = ({ questions, setShowResults, setResults }: QuestionsPr
           </li>
         ))}
       </ul>
-      <button type="submit">Next Question</button>
+      <button type="submit" disabled={!currentChoice}>
+        {activeQuestionIndex !== questions.length - 1 ? 'Next Question' : 'Finish'}
+      </button>
     </form>
   );
 };

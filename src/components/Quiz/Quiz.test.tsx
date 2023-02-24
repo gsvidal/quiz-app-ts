@@ -25,19 +25,15 @@ describe('Quiz', () => {
     expect(questionsElement).toBeInTheDocument();
   });
   test('should show total score as five if answer first question correctly (five points for correct answer(first choice))', async () => {
-    const firstQuestionElement: HTMLHeadingElement = screen.getByRole('heading', {
-      level: 2,
-    });
     const nextQuestionButtonElement: HTMLButtonElement = screen.getByRole('button', { name: /next question/i });
 
-    const choicesOfFirstQuestionElement: HTMLLIElement[] = screen.getAllByRole('listitem');
-
-    const firstQuestionCorrectAnswerElement = choicesOfFirstQuestionElement[0];
-    await waitFor(() => {
-      userEvent.click(firstQuestionCorrectAnswerElement);
-    });
-
     for (let i = 0; i < quizProps.quiz.questions.length; i++) {
+      const choicesOfQuestionElement: HTMLLIElement[] = screen.getAllByRole('listitem');
+      const choiceSelectedElement = choicesOfQuestionElement[0];
+
+      await waitFor(() => {
+        userEvent.click(choiceSelectedElement);
+      });
       await waitFor(() => {
         userEvent.click(nextQuestionButtonElement);
       });
