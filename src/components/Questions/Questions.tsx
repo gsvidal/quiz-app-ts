@@ -1,4 +1,4 @@
-import './Questions.module.css';
+import classes from './Questions.module.css';
 import { QuestionObj } from '../../mocks/questions';
 import { useState, FormEvent, MouseEvent, useEffect } from 'react';
 import { ResultsObj } from '../Quiz/Quiz';
@@ -18,29 +18,30 @@ export const Questions = ({ questions, setShowResults, setResults }: QuestionsPr
     setResults((prevResults) => {
       return { ...prevResults, totalQuestions: questions.length };
     });
-  }, []);
+  }, [setResults, questions.length]);
 
   const handleNextQuestion: (event: FormEvent<HTMLFormElement>) => void = (event) => {
     event.preventDefault();
+
+    // Checking if is correct answer or not and score
+    setResults((prevResults) =>
+      currentChoice === correctAnswer
+        ? {
+            ...prevResults,
+            totalScore: prevResults.totalScore + 5,
+            correctAnswers: prevResults.correctAnswers + 1,
+          }
+        : {
+            ...prevResults,
+            wrongAnswers: prevResults.wrongAnswers + 1,
+          }
+    );
+    setCurrentChoice('');
     if (activeQuestionIndex < questions.length - 1) {
       setActiveQuestionIndex((prevQuestionIndex) => prevQuestionIndex + 1);
-      // Checking if is correct answer or not and score
-      setResults((prevResults) =>
-        currentChoice === correctAnswer
-          ? {
-              ...prevResults,
-              totalScore: prevResults.totalScore + 5,
-              correctAnswers: prevResults.correctAnswers + 1,
-            }
-          : {
-              ...prevResults,
-              wrongAnswers: prevResults.wrongAnswers + 1,
-            }
-      );
-      setCurrentChoice('');
-      return;
+    } else {
+      setShowResults(true);
     }
-    setShowResults(true);
   };
 
   const handleSelectedChoice = (event: MouseEvent<HTMLLIElement>) => {
@@ -52,20 +53,28 @@ export const Questions = ({ questions, setShowResults, setResults }: QuestionsPr
   };
 
   return (
-    <form onSubmit={handleNextQuestion} aria-label="form">
-      <div>
+    <form onSubmit={handleNextQuestion} aria-label="form" className={classes.form}>
+      <div className={classes['question-number']}>
         <span>{addLeadingZero(activeQuestionIndex + 1)}</span>
-        <span>{addLeadingZero(questions.length)}</span>
+        <span className={classes['question-number--total']}>{addLeadingZero(questions.length)}</span>
       </div>
-      <h2>{question}</h2>
-      <ul>
+      <h2 className={classes.question}>{question}</h2>
+      <ul className={classes['choices-list']}>
         {choices.map((choice) => (
-          <li key={choice} onClick={handleSelectedChoice}>
+          <li
+            key={choice}
+            onClick={handleSelectedChoice}
+            className={`${classes.choice} ${currentChoice === choice ? classes.selected : ''}`}
+          >
             {choice}
           </li>
         ))}
       </ul>
-      <button type="submit" disabled={!currentChoice}>
+      <button
+        type="submit"
+        disabled={!currentChoice}
+        className={`button ${!currentChoice ? classes.disabled : ''}`}
+      >
         {activeQuestionIndex !== questions.length - 1 ? 'Next Question' : 'Finish'}
       </button>
     </form>

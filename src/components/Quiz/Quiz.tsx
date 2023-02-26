@@ -1,4 +1,4 @@
-import './Quiz.module.css';
+import classes from './Quiz.module.css';
 import { QuizObj } from '../../mocks/questions';
 import { Questions } from '../Questions/Questions';
 import { useState } from 'react';
@@ -27,9 +27,9 @@ export const Quiz = ({ quiz }: QuizProps): JSX.Element => {
 
   return (
     <>
-      <h1>FrontEnd Quiz</h1>
+      <h1 className={classes.title}>FrontEnd Quiz</h1>
       {showResults ? (
-        <Results results={results} />
+        <Results results={results} setShowResults={setShowResults} setResults={setResults}/>
       ) : (
         <Questions questions={questions} setShowResults={setShowResults} setResults={setResults} />
       )}

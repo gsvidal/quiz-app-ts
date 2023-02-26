@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Results } from './Results';
 import { ResultsProps } from './Results';
 import { ResultsObj } from '../Quiz/Quiz';
+import userEvent from '@testing-library/user-event';
 
 const resultsMock: ResultsObj = {
   totalQuestions: 4,
@@ -10,8 +11,12 @@ const resultsMock: ResultsObj = {
   wrongAnswers: 0,
 };
 
+const mockFn = jest.fn();
+
 const resultsProps: ResultsProps = {
   results: resultsMock,
+  setShowResults: mockFn,
+  setResults: mockFn,
 };
 
 beforeEach(() => {
@@ -20,14 +25,14 @@ beforeEach(() => {
 
 describe('Results', () => {
   test('should show Results title', () => {
-    const titleResultsElement = screen.getByRole('heading', { level: 2, name: /results/i });
+    const titleResultsElement: HTMLHeadingElement = screen.getByRole('heading', { level: 2, name: /results/i });
     expect(titleResultsElement).toBeInTheDocument();
   });
   test('should show results labels', () => {
-    const totalQuestionElement = screen.getByText(/total questions/i);
-    const totalScoreElement = screen.getByText(/total score/i);
-    const correctAnswersElement = screen.getByText(/correct answers/i);
-    const wrongAnswersElement = screen.getByText(/wrong answers/i);
+    const totalQuestionElement: HTMLSpanElement = screen.getByText(/total questions/i);
+    const totalScoreElement: HTMLSpanElement = screen.getByText(/total score/i);
+    const correctAnswersElement: HTMLSpanElement = screen.getByText(/correct answers/i);
+    const wrongAnswersElement: HTMLSpanElement = screen.getByText(/wrong answers/i);
 
     expect(totalQuestionElement).toBeInTheDocument();
     expect(totalScoreElement).toBeInTheDocument();
@@ -35,7 +40,8 @@ describe('Results', () => {
     expect(wrongAnswersElement).toBeInTheDocument();
   });
   test('should show the correct amount of total questions', () => {
-    const totalQuestionElement = screen.getByText(/total questions/i);
-    expect(Number(totalQuestionElement.lastElementChild?.textContent)).toBe(resultsMock.totalQuestions);
+    const totalQuestionElement: HTMLSpanElement = screen.getByText(/total questions/i);
+    expect(Number(totalQuestionElement.nextElementSibling?.textContent)).toBe(resultsMock.totalQuestions);
   });
+
 });
