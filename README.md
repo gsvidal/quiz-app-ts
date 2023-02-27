@@ -11,6 +11,7 @@
 ### Main features:
 - Four Multiple-choice questions with for options each.
 - At the end of the quiz users can watch their results with total score, correct and wrong answers.
+- Users only can hit Next Question button if they selected a choice previously.
 <br />
 
 ## Tech Stack:
