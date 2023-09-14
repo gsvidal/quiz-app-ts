@@ -3,7 +3,7 @@
 ### [Check out the deployed app!](https://www.gonzalovidal.dev/quiz-app-ts-tdd/)
 
 <a href="https://www.gonzalovidal.dev/quiz-app-ts-tdd/">
-  <img src="">
+  <img src="https://i.postimg.cc/2SrPD4RL/quiz-app.gif">
 </a> 
 
 ### A React project powered where users try to solve a front-end quiz
